@@ -14,6 +14,12 @@ az sql server firewall-rule create -g powerapps --server sqlpowerappsbenchmark -
 az sql db create -g powerapps -s sqlpowerappsbenchmark -n sqldbbenchmark --service-objective S0 --bsr Local
 ```
 
+To generate the data loader connection string:
+
+```sh
+az sql db show-connection-string -c ado.net
+```
+
 We're using DTU capacity, to change capacity during benchmark:
 
 ```sh
@@ -23,6 +29,9 @@ az sql db update -g powerapps -s sqlpowerappsbenchmark -n sqldbbenchmark --servi
 
 > ℹ️ Read ore about capacity options in the [purchasing models][1] documentation.
 > 💡 DTU model supports columnstore indexing starting from `S3` and above
+
+
+https://stackoverflow.com/a/24877312/3231778
 
 
 [1]: https://learn.microsoft.com/en-us/azure/azure-sql/database/purchasing-models?view=azuresql
