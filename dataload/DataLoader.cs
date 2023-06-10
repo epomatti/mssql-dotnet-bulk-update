@@ -1,3 +1,4 @@
+using System.Data;
 using Microsoft.Data.SqlClient;
 
 class DataLoader
@@ -13,6 +14,7 @@ class DataLoader
       connection.Open();
 
       this.ConnectionTest();
+      this.CreateOrganizations();
     }
   }
 
@@ -31,6 +33,29 @@ class DataLoader
         }
       }
     }
+  }
+
+  private void CreateOrganizations()
+  {
+    Console.WriteLine("\nCreating Organizations...");
+    int orgsQuty = Int32.Parse(Environment.GetEnvironmentVariable("ORGANIZATIONS")!);
+    string prefix = "ORG_";
+
+    // Create a SqlDataAdapter.  
+    SqlDataAdapter adapter = new SqlDataAdapter();
+
+    // Set the INSERT command and parameter.  
+    adapter.InsertCommand = new SqlCommand("INSERT INTO Organization (Name) VALUES (@Name);", connection);
+    adapter.InsertCommand.Parameters.Add("@Name", SqlDbType.NVarChar, 50, prefix);
+    adapter.InsertCommand.UpdatedRowSource = UpdateRowSource.None;
+
+    // Set the batch size.  
+    adapter.UpdateBatchSize = 100;
+
+    // Execute the update.  
+    DataTable dataTable = new DataTable("Organization");
+    int updated = adapter.Update(dataTable);
+    Console.WriteLine("Organizations created: {0}", updated);
   }
 
 }
