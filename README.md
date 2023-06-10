@@ -14,12 +14,6 @@ az sql server firewall-rule create -g powerapps --server sqlpowerappsbenchmark -
 az sql db create -g powerapps -s sqlpowerappsbenchmark -n sqldbbenchmark --service-objective S0 --bsr Local
 ```
 
-To generate the data loader connection string:
-
-```sh
-az sql db show-connection-string -c ado.net
-```
-
 We're using DTU capacity, to change capacity during benchmark:
 
 ```sh
@@ -30,8 +24,31 @@ az sql db update -g powerapps -s sqlpowerappsbenchmark -n sqldbbenchmark --servi
 > ℹ️ Read ore about capacity options in the [purchasing models][1] documentation.
 > 💡 DTU model supports columnstore indexing starting from `S3` and above
 
+To load the data into the SQL database, first connect using Azure Data Studio or another client and run the [`schema.sql`](/schema.sql).
 
-https://stackoverflow.com/a/24877312/3231778
+After creating the schema, enter and set up the data loading console app:
 
+```sh
+cd dataload
+cp template.env .env
+```
+
+Get the database connection string:
+
+```sh
+az sql db show-connection-string -s sqlpowerappsbenchmark -n sqldbbenchmark -c ado.net
+```
+
+Add the connection string to the `.env` file, replacing the username and password.
+
+Now run the application:
+
+```sh
+dotnet restore
+dotnet run
+```
+
+The console app users [bulk insert] to create the registries.
 
 [1]: https://learn.microsoft.com/en-us/azure/azure-sql/database/purchasing-models?view=azuresql
+[2]: https://stackoverflow.com/a/24877312/3231778
