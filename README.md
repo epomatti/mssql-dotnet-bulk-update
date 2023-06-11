@@ -4,25 +4,35 @@ Using ADO.NET bulk update to create data on MSSQL.
 
 > This example follows AdventureWorks [naming conventions][3]
 
+## Creating the database
+
 For local development, launch a docker instance:
 
 ```sh
 docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=Str0ngP4ssword#2023" --name mssql-powerapps -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-latest
 ```
 
-Or to launch a cloud instance:
+For real performance testing, start a database on Azure.
 
-> 💡 Edit security and location parameters according to your needs, this code is only for demo purposes
+Make sure you have the Bicep latest release:
 
 ```sh
-az group create -n powerapps -l brazilsouth
-
-az sql server create -l brazilsouth -g powerapps -n sqlpowerappsbenchmark -u powerapps -p "<STRONGPASSWORD>"
-az sql server firewall-rule create -g powerapps --server sqlpowerappsbenchmark -n AllowYourIp --start-ip-address "0.0.0.0" --end-ip-address "255.255.255.255"
-az sql db create -g powerapps -s sqlpowerappsbenchmark -n sqldbbenchmark --service-objective Basic --max-size 2GB --bsr Local
+az bicep upgrade
 ```
 
-We're using DTU capacity, to change capacity during benchmark:
+Create the resources:
+
+> 💡 Edit security and location parameters according to your needs - this code is only for demo purposes
+
+```sh
+# Edit the required values
+cp config-template.json config.json
+
+# Run the Bicep template
+az deployment group create --resource-group powerapps --template-file main.bicep
+```
+
+Switching the DTU capacity during benchmark:
 
 ```sh
 # Options with DTU are S0(10), S1(20), S2(50), S3(100)...
@@ -33,11 +43,18 @@ az sql db update -g powerapps -s sqlpowerappsbenchmark -n sqldbbenchmark --servi
 ```
 
 > ℹ️ Read ore about capacity options in the [purchasing models][1] documentation.
+
 > 💡 DTU model supports columnstore indexing starting from `S3` and above
 
-To load the data into the SQL database, first connect using Azure Data Studio or another client and run the [`schema.sql`](/schema.sql).
+## Create the schema
 
-After creating the schema, enter and set up the data loading console app:
+The sample schema compatible with this code is available in the [`schema.sql`](/schema.sql) file.
+
+Use your fav IDE such as Azure Data Studio to create the objects.
+
+## Run the batch
+
+After creating the schema, enter the console app directory to set it up.
 
 ```sh
 cd dataload
@@ -52,7 +69,7 @@ az sql db show-connection-string -s sqlpowerappsbenchmark -n sqldbbenchmark -c a
 
 Add the connection string to the `.env` file, replacing the username and password.
 
-Now run the application:
+Run the application:
 
 ```sh
 dotnet restore
@@ -63,10 +80,10 @@ The console app users [bulk insert] to create the registries.
 
 ---
 
-Don't forget to clean up the resources:
+When finished, delete the resources:
 
 ```sh
-az sql server delete -g powerapps -n sqlpowerappsbenchmark -y
+az group delete -n powerapps -y
 ```
 
 [1]: https://learn.microsoft.com/en-us/azure/azure-sql/database/purchasing-models?view=azuresql
