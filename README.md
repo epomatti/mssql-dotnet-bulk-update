@@ -5,7 +5,7 @@ Using SQL database connector with Power Apps.
 For local development, launch a docker instance:
 
 ```sh
-docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=p4ssw0rd" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-latest
+docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=Str0ngP4ssword#2023" --name mssql-powerapps -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-latest
 ```
 
 Or to launch a cloud instance:
