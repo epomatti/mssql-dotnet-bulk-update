@@ -37,7 +37,15 @@ class DataLoader
 
   private void CreateOrganizations()
   {
+    bool run = Boolean.Parse(Environment.GetEnvironmentVariable("INSERT_ORGANIZATIONS")!);
+    if (run == false)
+    {
+      Console.WriteLine("\nSkipping organizations...");
+      return;
+    }
+
     Console.WriteLine("\nCreating Organizations...");
+    int batchSize = Int32.Parse(Environment.GetEnvironmentVariable("ORGANIZATIONS_BATCH_SIZE")!);
     int orgsQuty = Int32.Parse(Environment.GetEnvironmentVariable("ORGANIZATIONS")!);
     string prefix = "My Organization ";
 
@@ -57,7 +65,7 @@ class DataLoader
     adapter.InsertCommand.Parameters.Add("@Name", SqlDbType.NVarChar, 50, "name");
     adapter.InsertCommand.UpdatedRowSource = UpdateRowSource.None;
 
-    adapter.UpdateBatchSize = 100;
+    adapter.UpdateBatchSize = batchSize;
 
     int updated = adapter.Update(dataTable);
     Console.WriteLine("Organizations created: {0}", updated);

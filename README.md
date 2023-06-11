@@ -18,7 +18,7 @@ We're using DTU capacity, to change capacity during benchmark:
 
 ```sh
 # Options with DTU are S0(10), S1(20), S2(50), S3(100) and so on
-az sql db update -g powerapps -s sqlpowerappsbenchmark -n sqldbbenchmark --service-objective S5
+az sql db update -g powerapps -s sqlpowerappsbenchmark -n sqldbbenchmark --service-objective S3
 ```
 
 > ℹ️ Read ore about capacity options in the [purchasing models][1] documentation.
