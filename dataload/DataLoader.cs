@@ -49,7 +49,7 @@ class DataLoader
     int orgsQty = Int32.Parse(Environment.GetEnvironmentVariable("ORGANIZATIONS_QUANTITY")!);
     string prefix = "My Organization ";
 
-    DataTable dataTable = new DataTable("Organizations");
+    DataTable dataTable = new DataTable("Organization");
     DataColumn Name = new DataColumn("Name");
     dataTable.Columns.Add(Name);
 
@@ -61,7 +61,7 @@ class DataLoader
 
     SqlDataAdapter adapter = new SqlDataAdapter();
 
-    adapter.InsertCommand = new SqlCommand("INSERT INTO Organizations (Name) VALUES (@Name);", connection);
+    adapter.InsertCommand = new SqlCommand("INSERT INTO Organization (Name) VALUES (@Name);", connection);
     adapter.InsertCommand.Parameters.Add("@Name", SqlDbType.NVarChar, 50, "Name");
     adapter.InsertCommand.UpdatedRowSource = UpdateRowSource.None;
 
