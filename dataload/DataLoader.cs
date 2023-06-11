@@ -210,7 +210,6 @@ class DataLoader
 
     int updated = adapter.Update(dataTable);
     Console.WriteLine("Messages created: {0}", updated);
-
   }
 
 }
