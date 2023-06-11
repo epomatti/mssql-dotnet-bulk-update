@@ -76,7 +76,7 @@ dotnet restore
 dotnet run
 ```
 
-The console app users [bulk insert] to create the registries.
+The console app will use bulk update to create the data.
 
 ---
 
