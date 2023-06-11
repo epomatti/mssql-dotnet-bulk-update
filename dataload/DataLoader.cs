@@ -39,21 +39,26 @@ class DataLoader
   {
     Console.WriteLine("\nCreating Organizations...");
     int orgsQuty = Int32.Parse(Environment.GetEnvironmentVariable("ORGANIZATIONS")!);
-    string prefix = "ORG_";
+    string prefix = "My Organization ";
 
-    // Create a SqlDataAdapter.  
+    DataTable dataTable = new DataTable("Organizations");
+    DataColumn Name = new DataColumn("name");
+    dataTable.Columns.Add(Name);
+
+    for (int i = 0; i < orgsQuty; i++)
+    {
+      string n = i.ToString().PadLeft(3, '0');
+      dataTable.Rows.Add(prefix + n);
+    }
+
     SqlDataAdapter adapter = new SqlDataAdapter();
 
-    // Set the INSERT command and parameter.  
-    adapter.InsertCommand = new SqlCommand("INSERT INTO Organization (Name) VALUES (@Name);", connection);
-    adapter.InsertCommand.Parameters.Add("@Name", SqlDbType.NVarChar, 50, prefix);
+    adapter.InsertCommand = new SqlCommand("INSERT INTO Organizations (name) VALUES (@Name);", connection);
+    adapter.InsertCommand.Parameters.Add("@Name", SqlDbType.NVarChar, 50, "name");
     adapter.InsertCommand.UpdatedRowSource = UpdateRowSource.None;
 
-    // Set the batch size.  
     adapter.UpdateBatchSize = 100;
 
-    // Execute the update.  
-    DataTable dataTable = new DataTable("Organization");
     int updated = adapter.Update(dataTable);
     Console.WriteLine("Organizations created: {0}", updated);
   }
