@@ -11,14 +11,17 @@ az group create -n powerapps -l brazilsouth
 
 az sql server create -l brazilsouth -g powerapps -n sqlpowerappsbenchmark -u powerapps -p "<STRONGPASSWORD>"
 az sql server firewall-rule create -g powerapps --server sqlpowerappsbenchmark -n AllowYourIp --start-ip-address "0.0.0.0" --end-ip-address "255.255.255.255"
-az sql db create -g powerapps -s sqlpowerappsbenchmark -n sqldbbenchmark --service-objective S0 --bsr Local
+az sql db create -g powerapps -s sqlpowerappsbenchmark -n sqldbbenchmark --service-objective Basic --max-size 2GB --bsr Local
 ```
 
 We're using DTU capacity, to change capacity during benchmark:
 
 ```sh
-# Options with DTU are S0(10), S1(20), S2(50), S3(100) and so on
-az sql db update -g powerapps -s sqlpowerappsbenchmark -n sqldbbenchmark --service-objective S3
+# Options with DTU are S0(10), S1(20), S2(50), S3(100)...
+az sql db update -g powerapps -s sqlpowerappsbenchmark -n sqldbbenchmark --service-objective S3 --max-size 250GB
+
+# Go back to Basic to save costs
+az sql db update -g powerapps -s sqlpowerappsbenchmark -n sqldbbenchmark --service-objective Basic --max-size 2GB
 ```
 
 > ℹ️ Read ore about capacity options in the [purchasing models][1] documentation.
