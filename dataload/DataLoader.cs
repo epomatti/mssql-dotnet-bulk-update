@@ -88,6 +88,7 @@ class DataLoader
     DataTable dataTable = new DataTable("Messages");
     DataColumn Priority = new DataColumn("priority");
     DataColumn CreationDate = new DataColumn("creation_date");
+    // DataColumn CreationDate = new DataColumn("creation_date");
 
     DataColumn Text01 = new DataColumn("text01");
     DataColumn Text02 = new DataColumn("text02");
@@ -166,8 +167,10 @@ class DataLoader
 
     SqlDataAdapter adapter = new SqlDataAdapter();
 
-    adapter.InsertCommand = new SqlCommand("INSERT INTO Messages (name) VALUES (@Name);", connection);
-    adapter.InsertCommand.Parameters.Add("@Name", SqlDbType.NVarChar, 50, "name");
+    adapter.InsertCommand = new SqlCommand("INSERT INTO Messages (priority, creation_date) VALUES (@priority, @creationDate);", connection);
+    adapter.InsertCommand.Parameters.Add("@priority", SqlDbType.NVarChar, 50, "priority");
+    adapter.InsertCommand.Parameters.Add("@creationDate", SqlDbType.NVarChar, 50, "creation_date");
+    adapter.InsertCommand.Parameters.Add("@creationDate", SqlDbType.NVarChar, 50, "creation_date");
     adapter.InsertCommand.UpdatedRowSource = UpdateRowSource.None;
 
   }
