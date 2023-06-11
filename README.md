@@ -1,6 +1,8 @@
-# az-sql-powerapps
+# .NET Core Batch Update
 
-Using SQL database connector with Power Apps.
+Using ADO.NET bulk update to create data on MSSQL.
+
+> This example follows AdventureWorks [naming conventions][3]
 
 For local development, launch a docker instance:
 
@@ -69,3 +71,4 @@ az sql server delete -g powerapps -n sqlpowerappsbenchmark -y
 
 [1]: https://learn.microsoft.com/en-us/azure/azure-sql/database/purchasing-models?view=azuresql
 [2]: https://stackoverflow.com/a/24877312/3231778
+[3]: https://learn.microsoft.com/en-us/previous-versions/sql/sql-server-2008/ms124438(v=sql.100)
