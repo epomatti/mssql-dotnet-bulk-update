@@ -20,7 +20,7 @@ Make sure you have the Bicep latest release:
 az bicep upgrade
 ```
 
-Create the resources:
+Create the resources on Azure:
 
 > 💡 Edit security and location parameters according to your needs - this code is only for demo purposes
 
