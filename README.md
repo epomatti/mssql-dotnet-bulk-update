@@ -48,7 +48,7 @@ az sql db update -g powerapps -s sqlpowerappsbenchmark -n sqldbbenchmark --servi
 
 ## Create the schema
 
-The sample schema compatible with this code is available in the [`schema.sql`](/schema.sql) file.
+The sample schema compatible with this code is available in the [`schema.sql`](/tsql/schema.sql) file.
 
 Use your fav IDE such as Azure Data Studio to create the objects.
 
