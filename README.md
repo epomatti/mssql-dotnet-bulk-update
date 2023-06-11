@@ -53,5 +53,13 @@ dotnet run
 
 The console app users [bulk insert] to create the registries.
 
+---
+
+Don't forget to clean up the resources:
+
+```sh
+az sql server delete -g powerapps -n sqlpowerappsbenchmark -y
+```
+
 [1]: https://learn.microsoft.com/en-us/azure/azure-sql/database/purchasing-models?view=azuresql
 [2]: https://stackoverflow.com/a/24877312/3231778
